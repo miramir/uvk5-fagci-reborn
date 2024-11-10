@@ -1,10 +1,25 @@
 #ifndef CHANNELS_H
 #define CHANNELS_H
 
-#define SCANLIST_MAX 1024
-
-#include "../settings.h"
+#include "helper/common_types.h"
+#include "driver/bk4819.h"
 #include <stdint.h>
+#include <stdbool.h>
+
+#define SCANLIST_MAX 1024
+#define CH_SIZE sizeof(CH)
+
+typedef struct {
+  F rx;
+  F tx;
+  char name[10];
+  uint8_t memoryBanks;
+  ModulationType modulation : 4;
+  BK4819_FilterBandwidth_t bw : 2;
+  TXOutputPower power : 2;
+  Radio radio : 2;
+} __attribute__((packed)) CH; // 22 B
+// getsize(CH)
 
 uint16_t CHANNELS_GetCountMax();
 void CHANNELS_Load(int16_t num, CH *p);

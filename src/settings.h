@@ -3,6 +3,7 @@
 
 #include "apps/apps.h"
 #include "driver/bk4819.h"
+#include "helper/common_types.h"
 #include <stdint.h>
 
 #define getsize(V) char (*__ #V)(void)[sizeof(V)] = 1;
@@ -71,20 +72,6 @@ typedef enum {
   BAT_PERCENT,
   BAT_VOLTAGE,
 } BatteryStyle;
-
-typedef enum {
-  TX_POW_ULOW,
-  TX_POW_LOW,
-  TX_POW_MID,
-  TX_POW_HIGH,
-} TXOutputPower;
-
-typedef enum {
-  RADIO_BK4819,
-  RADIO_BK1080,
-  RADIO_SI4732,
-  RADIO_UNKNOWN,
-} Radio;
 
 typedef enum {
   SCAN_TO_0,
@@ -166,35 +153,6 @@ typedef struct {
 // getsize(Settings)
 
 typedef struct {
-  uint32_t f : 27;
-  uint8_t codeType : 4;
-  uint8_t code;
-} __attribute__((packed)) F; // 5 B
-// getsize(F)
-
-typedef struct {
-  F rx;
-  F tx;
-  char name[10];
-  uint8_t memoryBanks;
-  ModulationType modulation : 4;
-  BK4819_FilterBandwidth_t bw : 2;
-  TXOutputPower power : 2;
-  Radio radio : 2;
-} __attribute__((packed)) CH; // 22 B
-// getsize(CH)
-
-typedef struct {
-  F rx;
-  F tx;
-  int16_t channel;
-  ModulationType modulation : 4;
-  TXOutputPower power : 2;
-  Radio radio : 2;
-} __attribute__((packed)) VFO;
-// getsize(VFO)
-
-typedef struct {
   uint32_t start : 27;
   uint32_t end : 27;
 } __attribute__((packed)) FRange;
@@ -237,7 +195,6 @@ typedef struct {
 #define SETTINGS_SIZE sizeof(Settings)
 
 #define PRESET_SIZE sizeof(Preset)
-#define CH_SIZE sizeof(CH)
 #define VFO_SIZE sizeof(VFO)
 
 #define VFOS_OFFSET (SETTINGS_OFFSET + SETTINGS_SIZE)

@@ -4,6 +4,7 @@
 #include "driver/bk4819.h"
 #include "helper/lootlist.h"
 #include "settings.h"
+#include "helper/vfos.h"
 #include <stdbool.h>
 #include <stdint.h>
 
